@@ -20,7 +20,7 @@ app.use("/api/sector", sectorRouter);
 app.use("/api/user", userRoute);
 
 const PORT = process.env.PORT || 3001;
-const MONGO_URL = "mongodb+srv://burakcakir:brkckr20@cluster0.iykaeml.mongodb.net/task?retryWrites=true&w=majority"
+const MONGO_URL = process.env.MONGO_URL;
 
 app.listen(PORT, () => {
     mongoose.connect(MONGO_URL).then(() => console.log("MongoDB conntected successfully"))
