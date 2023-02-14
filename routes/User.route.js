@@ -10,18 +10,8 @@ router.get("/:username", async (req, res) => {
         const user = await User.findOne({ username });
         res.send(user);
     } catch (error) {
-
-    }
-    /* const token = req.headers.authorization;
-    try {
-        const decoded = jwt.verify(token, "QHA&u8ri!>A6bJRFz6P<)UZUX0k#1l");
-        const username = decoded.username;
-        const user = await User.findOne({ username });
-        const { name, username: uname, sector, agree } = user
-        res.json({ status: 'ok', user: { name, uname, sector, agree } })
-    } catch (error) {
         console.log(error);
-    } */
+    }
 })
 
 
@@ -39,7 +29,7 @@ router.post("/", async (req, res) => {
         const token = jwt.sign({
             username: user.username,
         }, "QHA&u8ri!>A6bJRFz6P<)UZUX0k#1l")
-        res.send({ status: 'ok', user: token, name: user.username });
+        res.send({ status: 'ok', token: token, user });
     } catch (error) {
         console.log(error);
     }
@@ -78,7 +68,8 @@ router.put("/:id", async (req, res) => {
         user.username = username;
         user.password = password;
         user.sector = sector[sector.length - 1];
-        user.save();
+        await user.save();
+        res.send(user);
     } catch (error) {
         console.log(error);
     }
