@@ -14,6 +14,14 @@ router.get("/:username", async (req, res) => {
     }
 })
 
+router.get("/", async (req, res) => {
+    try {
+        const user = await User.find();
+        res.send(user);
+    } catch (error) {
+        console.log(error);
+    }
+})
 
 router.post("/", async (req, res) => {
     res.send("test"); return;
