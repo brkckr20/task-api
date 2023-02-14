@@ -16,6 +16,7 @@ router.get("/:username", async (req, res) => {
 
 
 router.post("/", async (req, res) => {
+    res.send("test"); return;
     try {
         const { name, username, password, sector, agree } = req.body;
         const data = {
@@ -30,6 +31,7 @@ router.post("/", async (req, res) => {
             username: user.username,
         }, "QHA&u8ri!>A6bJRFz6P<)UZUX0k#1l")
         res.send({ status: 'ok', token: token, user });
+
     } catch (error) {
         console.log(error);
     }
