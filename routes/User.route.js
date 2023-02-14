@@ -4,8 +4,15 @@ import Sector from '../models/Sector.model.js'
 import jwt from 'jsonwebtoken';
 const router = express.Router();
 
-/* router.get("/", async (req, res) => {
-    const token = req.headers.authorization;
+router.get("/:username", async (req, res) => {
+    const { username } = req.params;
+    try {
+        const user = await User.findOne({ username });
+        res.send(user);
+    } catch (error) {
+
+    }
+    /* const token = req.headers.authorization;
     try {
         const decoded = jwt.verify(token, "QHA&u8ri!>A6bJRFz6P<)UZUX0k#1l");
         const username = decoded.username;
@@ -14,9 +21,9 @@ const router = express.Router();
         res.json({ status: 'ok', user: { name, uname, sector, agree } })
     } catch (error) {
         console.log(error);
-    }
+    } */
 })
- */
+
 
 router.post("/", async (req, res) => {
     try {
