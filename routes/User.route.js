@@ -24,24 +24,25 @@ router.get("/", async (req, res) => {
 })
 
 router.post("/", async (req, res) => {
-    res.send("test"); return;
+
     try {
         const { name, username, password, sector, agree } = req.body;
         const data = {
             name,
             username,
             password,
-            sector: sector[sector.length - 1],
+            sector: sector,
             agree
         }
         const user = await User.create(data);
+        const { sectorName } = await Sector.findById(user.sector);
         const token = jwt.sign({
             username: user.username,
         }, "QHA&u8ri!>A6bJRFz6P<)UZUX0k#1l")
-        res.send({ status: 'ok', token: token, user });
+        res.send({ status: 'ok', token: token, user, sectorName });
 
     } catch (error) {
-        console.log(error);
+        res.send({ status: "error", code: error.code });
     }
 })
 
@@ -62,7 +63,7 @@ router.post("/login", async (req, res) => {
                 username: user.username,
             }, "QHA&u8ri!>A6bJRFz6P<)UZUX0k#1l")
             const { sectorName } = await Sector.findById(user.sector)
-            res.send({ status: 'ok', token: token, user: user.username, values: user, sectorName });
+            res.send({ status: 'ok', token: token, user, sectorName });
         }
     } catch (error) {
         console.log(error);
@@ -77,9 +78,10 @@ router.put("/:id", async (req, res) => {
         user.name = name;
         user.username = username;
         user.password = password;
-        user.sector = sector[sector.length - 1];
+        user.sector = sector;
         await user.save();
-        res.send(user);
+        const { sectorName } = await Sector.findById(user.sector);
+        res.send({ user, sectorName });
     } catch (error) {
         console.log(error);
     }
